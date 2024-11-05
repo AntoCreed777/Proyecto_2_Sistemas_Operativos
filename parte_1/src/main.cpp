@@ -16,11 +16,12 @@ void consumidor(Monitor &monitor, int id) {
 
 int main() {
     Monitor monitor;
+    int cantidad = 5;
 
     std::vector<std::thread> hilos;
 
     // Productores
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < cantidad; ++i) {
         hilos.push_back(std::thread(productor, std::ref(monitor), i));
     }
     
@@ -34,7 +35,7 @@ int main() {
     hilos.clear();
 
     // Consumidores
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < cantidad; ++i) {
         hilos.push_back(std::thread(consumidor, std::ref(monitor), i));
     }
     for (auto &hilo : hilos) {
