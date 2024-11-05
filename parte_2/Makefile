@@ -1,6 +1,6 @@
 # Variables
 CXX = g++
-CXXFLAGS = -Wall -g
+CXXFLAGS = -Wall -g -I ./include
 OBJ_DIR = build
 TARGET = main.out
 
