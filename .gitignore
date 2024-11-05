@@ -3,5 +3,4 @@
 /parte_2/build/
 
 # Ignorar todos los archivos ejecutables
-/parte_1/main.out
-/parte_2/main.out
+*.out
