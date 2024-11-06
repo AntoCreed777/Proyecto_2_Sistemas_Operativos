@@ -1,36 +1,34 @@
 #include <iostream>
-#include <pthread.h>
+#include <mutex>
 #include <vector>
 
 #include "monitor.h"
 #include "constantes.h"
 
 Monitor::Monitor() {
-    pthread_mutex_init(&mutex, NULL);
     this->buffer = std::vector<int>();
 }
 
 Monitor::~Monitor() {
-    pthread_mutex_destroy(&mutex);
     this->buffer.clear();
 }
 
 void Monitor::agregarElemento(int elemento) {
-    pthread_mutex_lock(&mutex);
+    this->mutex.lock();
     buffer.push_back(elemento);
-    pthread_mutex_unlock(&mutex);
+    this->mutex.unlock();
 }
 
 void Monitor::quitarElemento() {
-    pthread_mutex_lock(&mutex);
+    this->mutex.lock();
     if (!buffer.empty()) {
         buffer.erase(buffer.begin());
     }
-    pthread_mutex_unlock(&mutex);
+    this->mutex.unlock();
 }
 
 void Monitor::mostrarElementos() {
-    pthread_mutex_lock(&mutex);
+    this->mutex.lock();
     std::cout << AMARILLO << "Buffer: " << RESET_COLOR;
     std::cout << AZUL;
 
@@ -41,19 +39,19 @@ void Monitor::mostrarElementos() {
         }
     }
     std::cout << RESET_COLOR << std::endl;
-    pthread_mutex_unlock(&mutex);
+    this->mutex.unlock();
 }
 
 bool Monitor::isEmpty() {
-    pthread_mutex_lock(&mutex);
+    this->mutex.lock();
     bool empty = buffer.empty();
-    pthread_mutex_unlock(&mutex);
+    this->mutex.unlock();
     return empty;
 }
 
 int Monitor::cantidadElementos() {
-    pthread_mutex_lock(&mutex);
+    this->mutex.lock();
     int cantidad = buffer.size();
-    pthread_mutex_unlock(&mutex);
+    this->mutex.unlock();
     return cantidad;
 }

@@ -1,12 +1,12 @@
 #pragma once
 
-#include <pthread.h>
+#include <mutex>
 #include <vector>
 
 class Monitor {
 private:
     std::vector<int> buffer;
-    pthread_mutex_t mutex;
+    std::mutex mutex;
     int size;
 
 public:
