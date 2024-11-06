@@ -9,7 +9,7 @@ private:
     std::vector<elemento> contenedor;
     int tail;
     int head;
-    int tamanio;
+    int size_cola;
 
 public:
     Cola();
@@ -39,7 +39,7 @@ template <typename elemento>
 Cola<elemento>::Cola(){
     head = 0;
     tail = 0;
-    tamanio = 0;
+    size_cola = 0;
     contenedor = std::vector<elemento>(1);
 
 } 
@@ -61,7 +61,7 @@ void Cola<elemento>::push(elemento elem){
 
     head = (head + 1) % this->tamanio_contenedor();
     contenedor[head] = elem;
-    tamanio++;
+    size_cola++;
 }
 
 
@@ -89,7 +89,7 @@ elemento Cola<elemento>::pop(){
     }
     elemento elem = contenedor[this->tail];
     this->tail = (this->tail + 1) % this->tamanio_contenedor();
-    tamanio--;
+    size_cola--;
     return elem;
 }
 
@@ -100,6 +100,6 @@ int Cola<elemento>::tamanio_contenedor(){
 
 template <typename elemento>
 int Cola<elemento>::size(){
-    return tamanio;
+    return size_cola;
 } 
 
