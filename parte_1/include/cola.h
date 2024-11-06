@@ -3,6 +3,8 @@
 #include <stdexcept>
 #include <vector>
 
+#include "constantes.h"
+
 template <typename elemento>
 class Cola{
 private:
@@ -24,14 +26,19 @@ public:
     int size();
 
     void mostrar_contenedor(){
-        for (auto elem: contenedor){
-            std::cout << elem << " ";
+        if (this->size() == 0) {
+            std::cout << std::endl;
+            return;
         }
-        std::cout << std::endl;
+        
+        std::cout << AZUL;
+        for (int i = tail; i != head; i = (i + 1)%tamanio_contenedor()){
+            std::cout << contenedor[i] << " ";
+        }
+        std::cout << contenedor[head] << " ";
+        
+        std::cout << RESET_COLOR << std::endl;
     }
-    
-
-
 };
 
 
