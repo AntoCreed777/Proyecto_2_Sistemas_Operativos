@@ -15,6 +15,7 @@ private:
 
 public:
     Cola();
+    Cola(std::vector<elemento> cola_inicial);
 
     void push(elemento elem);
 
@@ -48,6 +49,15 @@ Cola<elemento>::Cola(){
     tail = 0;
     size_cola = 0;
     contenedor = std::vector<elemento>(1);
+
+} 
+
+template <typename elemento>
+Cola<elemento>::Cola(std::vector<elemento> cola_inicial){
+    head = cola_inicial.size() - 1;
+    tail = 0;
+    size_cola = cola_inicial.size();
+    contenedor = cola_inicial;
 
 } 
 
