@@ -6,52 +6,37 @@
 #include "constantes.h"
 
 Monitor::Monitor() {
-    this->buffer = std::vector<int>();
-}
-
-Monitor::~Monitor() {
-    this->buffer.clear();
+    this->buffer = Cola<int>();
 }
 
 void Monitor::agregarElemento(int elemento) {
-    this->mutex.lock();
-    buffer.push_back(elemento);
-    this->mutex.unlock();
+    std::lock_guard<std::mutex> lock(this->mutex);
+    buffer.push(elemento);
 }
 
 void Monitor::quitarElemento() {
-    this->mutex.lock();
-    if (!buffer.empty()) {
-        buffer.erase(buffer.begin());
+    std::lock_guard<std::mutex> lock(this->mutex);
+    try {
+        buffer.pop();
     }
-    this->mutex.unlock();
+    catch(const std::exception& e) {
+        // PASS
+    }
 }
 
 void Monitor::mostrarElementos() {
-    this->mutex.lock();
-    std::cout << AMARILLO << "Buffer: " << RESET_COLOR;
-    std::cout << AZUL;
+    std::lock_guard<std::mutex> lock(this->mutex);
 
-    if (buffer.empty()) std::cout << "Vacio";
-    else {
-        for (size_t i = 0; i < buffer.size(); i++) {
-            std::cout << buffer[i] << " ";
-        }
-    }
-    std::cout << RESET_COLOR << std::endl;
-    this->mutex.unlock();
+    std::cout << AMARILLO << "Buffer: " << RESET_COLOR;
+    buffer.mostrar_contenedor();
 }
 
 bool Monitor::isEmpty() {
-    this->mutex.lock();
-    bool empty = buffer.empty();
-    this->mutex.unlock();
-    return empty;
+    std::lock_guard<std::mutex> lock(this->mutex);
+    return buffer.size() == 0;
 }
 
 int Monitor::cantidadElementos() {
-    this->mutex.lock();
-    int cantidad = buffer.size();
-    this->mutex.unlock();
-    return cantidad;
+    std::lock_guard<std::mutex> lock(this->mutex);
+    return buffer.size();
 }

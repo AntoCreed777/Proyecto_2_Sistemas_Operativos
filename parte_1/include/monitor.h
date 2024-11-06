@@ -3,16 +3,16 @@
 #include <mutex>
 #include <vector>
 
+#include "cola.h"
+
 class Monitor {
 private:
-    std::vector<int> buffer;
+    Cola<int> buffer;
     std::mutex mutex;
     int size;
 
 public:
     Monitor();
-
-    ~Monitor();
 
     /**
      * @brief Agrega un elemento al buffer
