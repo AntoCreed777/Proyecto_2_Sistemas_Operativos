@@ -58,7 +58,6 @@ Cola<elemento>::Cola(std::vector<elemento> cola_inicial){
     tail = 0;
     size_cola = cola_inicial.size();
     contenedor = cola_inicial;
-
 } 
 
 template <typename elemento>

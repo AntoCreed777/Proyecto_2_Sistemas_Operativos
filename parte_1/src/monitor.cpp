@@ -1,4 +1,5 @@
 #include <iostream>
+#include <thread>
 #include <mutex>
 #include <vector>
 
@@ -39,4 +40,9 @@ bool Monitor::isEmpty() {
 int Monitor::cantidadElementos() {
     std::lock_guard<std::mutex> lock(this->mutex);
     return buffer.size();
+}
+
+void Monitor::bloqueo(int tiempo) {
+    std::lock_guard<std::mutex> lock(this->mutex);
+    std::this_thread::sleep_for(std::chrono::seconds(tiempo));
 }

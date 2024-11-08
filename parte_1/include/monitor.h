@@ -45,4 +45,11 @@ public:
      * @return `int`
      */
     int cantidadElementos();
+
+    /**
+     * @brief Bloquea el acceso al buffer por un tiempo determinado
+     * 
+     * @param tiempo Tiempo en segundos
+     */
+    void bloqueo(int tiempo);
 };
