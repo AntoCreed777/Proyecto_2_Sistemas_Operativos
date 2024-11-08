@@ -1,6 +1,7 @@
 #pragma once
 
 #include <mutex>
+#include <condition_variable>
 #include <vector>
 
 #include "cola.h"
@@ -9,10 +10,13 @@ class Monitor {
 private:
     Cola<int> buffer;
     std::mutex mutex;
-    int size;
+    std::condition_variable condConsumidores;
+    int productores_esperados, productores_actuales;
+    int tiempo_bloqueo;
+    bool bloqueado;
 
 public:
-    Monitor();
+    Monitor(int productores_esperados, int tiempo_bloqueo);
 
     /**
      * @brief Agrega un elemento al buffer
@@ -47,9 +51,9 @@ public:
     int cantidadElementos();
 
     /**
-     * @brief Bloquea el acceso al buffer por un tiempo determinado
+     * @brief Espera un tiempo determinado para desbloquear el monitor
      * 
-     * @param tiempo Tiempo en segundos
+     * @param segundos Tiempo en segundos
      */
-    void bloqueo(int tiempo);
+    void esperar_para_desbloquear(int segundos);
 };

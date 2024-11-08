@@ -18,37 +18,25 @@ void consumidor(Monitor &monitor, int id) {
     monitor.mostrarElementos();
 }
 
-void bloqueo(Monitor &monitor, int tiempo) {
-    monitor.bloqueo(tiempo);
-}
 
 int main() {
-    Monitor monitor;
     int cantidad_productores = 10;
     int cantidad_consumidores = 5;
     int tiempo_espera = 2; // En Segundos
+    
+    Monitor monitor(cantidad_productores, tiempo_espera);
 
     std::vector<std::thread> hilos;
 
     // Productores
-    for (int i = 0; i < cantidad_productores; ++i) {
+    for (int i = 0; i < cantidad_productores; i++) {
         hilos.push_back(std::thread(productor, std::ref(monitor), i));
     }
-    
-    for (auto &hilo : hilos) hilo.join();
-    hilos.clear();
 
-    // Intermedio
-    hilos.push_back(std::thread(bloqueo, std::ref(monitor), tiempo_espera));
-    hilos[0].join();
-    hilos.clear();
-    std::cout << std::endl;
-
-    // Consumidores
-    for (int i = 0; i < cantidad_consumidores; ++i) {
+    for (int i = 0; i < cantidad_consumidores; i++) {
         hilos.push_back(std::thread(consumidor, std::ref(monitor), i));
     }
-
+    
     for (auto &hilo : hilos) hilo.join();
     hilos.clear();
 
