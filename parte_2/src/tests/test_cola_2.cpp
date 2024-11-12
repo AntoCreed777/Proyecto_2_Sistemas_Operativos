@@ -1,6 +1,11 @@
 #include <iostream>
 #include "cola.h"
 
+/*
+Este test verifica que la cola se comporte correctamente al insertar elementos
+sobrepasando el tamaño del contenedor.
+*/
+
 int main(){
     Cola<int> cola(5);
 
