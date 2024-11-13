@@ -33,12 +33,10 @@ private:
      * @brief Busca un elemento en el contenedor de la cola
      * 
      * @param elem Elemento a buscar
-     * @param inicio Inicio del rango de busqueda
-     * @param fin Fin del rango de busqueda
      * @return ``true`` Si se encontro el elemento.
      * @return ``false`` En caso contrario
      */
-    bool busqueda_binaria(elemento elem, int inicio, int fin);
+    bool busqueda_lineal(elemento elem);
 
     /**
      * @brief Verifica si un elemento ya esta en la cola
@@ -115,7 +113,7 @@ void Cola<elemento>::push(elemento elem){
     if (is_full()) pop();
     
     contenedor[head] = elem;
-    head = (head + 1)%tamanio_contenedor();
+    head = (head + 1) % tamanio_contenedor();
     cantidad_elementos++;
 }
 
@@ -129,15 +127,19 @@ void Cola<elemento>::pop(){
 }
 
 template <typename elemento>
-bool Cola<elemento>::busqueda_binaria(elemento elem, int inicio, int fin){
-    int medio;
-    while (inicio <= fin){
-        medio = (inicio + fin)/2;
-        if (contenedor[medio] == elem) return true;
-
-        if (contenedor[medio] < elem) inicio = medio + 1;
-        else fin = medio - 1;
+bool Cola<elemento>::busqueda_lineal(elemento elem){
+    if (tail < head) {
+        for (int i = tail; i < head; i++)
+            if (contenedor[i] == elem) return true;
     }
+    else {
+        for (int i = tail; i < tamanio_contenedor(); i++)
+            if (contenedor[i] == elem) return true;
+
+        for (int i = 0; i < head; i++)
+            if (contenedor[i] == elem) return true;
+    }
+
     return false;
 }
 
@@ -145,9 +147,5 @@ template <typename elemento>
 bool Cola<elemento>::existe_elemento(elemento elem){
     if (is_empty()) return false;
 
-    if (tail < head){
-        return busqueda_binaria(elem, tail, head);
-    }
-    return busqueda_binaria(elem, tail, tamanio_contenedor() - 1) || busqueda_binaria(elem, 0, (head != 0) ? head - 1 : tamanio_contenedor() - 1);
-    
+    return busqueda_lineal(elem);
 }
