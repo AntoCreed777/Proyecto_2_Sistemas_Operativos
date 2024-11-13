@@ -20,7 +20,7 @@ private:
 
     bool is_empty() {return cantidad_elementos == 0;}
 
-    bool is_full() {return contenedor.size() == cantidad_elementos;}
+    bool is_full() {return int(contenedor.size()) == cantidad_elementos;}
 
     void actualizar_posicion_puntero() {
         posicion_puntero = (posicion_puntero + 1) % contenedor.size();
