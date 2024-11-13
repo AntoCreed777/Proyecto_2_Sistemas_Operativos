@@ -2,6 +2,8 @@
 #include <vector>
 #include "constantes.h"
 
+#define NO_SE_ENCONTRO -1
+
 template <typename element>
 class LRU {
     private:
@@ -9,7 +11,7 @@ class LRU {
         int hits;
         int misses;
         int cantidad_elementos;
-        int busqueda_binaria(element e);
+        int busqueda_lineal(element e);
     public:
         LRU(int size);
         void push(element e);
@@ -37,10 +39,10 @@ LRU<element>::LRU(int size) {
  */
 template <typename element>
 void LRU<element>::push(element e) {
-    int posicion = this->busqueda_binaria(e);
+    int posicion = this->busqueda_lineal(e);
 
     // Si no lo encuentra en el contenedor
-    if (posicion == -1) {
+    if (posicion == NO_SE_ENCONTRO) {
         this->misses++;
         if (int(this->contenedor.size()) == cantidad_elementos) {  // Si el contenedor está lleno
             this->contenedor.erase(this->contenedor.begin());    // Elimina el primer elemento
@@ -66,32 +68,22 @@ void LRU<element>::push(element e) {
  * @return ``int`` Posicion del elemento en el contenedor, ``-1`` si no lo encuentra
  */
 template <typename element>
-int LRU<element>::busqueda_binaria(element e) {
-    int inicio = 0;
-    int fin = this->cantidad_elementos - 1;
-    int medio;
-    while (inicio <= fin) {
-        medio = (inicio + fin) / 2;
-        if (this->contenedor[medio] == e) {
-            return medio;
-        } else if (this->contenedor[medio] < e) {
-            inicio = medio + 1;
-        } else {
-            fin = medio - 1;
-        }
-    }
-    return -1;
+int LRU<element>::busqueda_lineal(element e) {
+    for (int i=0;i<cantidad_elementos;i++)
+        if (contenedor[i] == e) return i;
+    
+    return NO_SE_ENCONTRO;
 }
 
 template <typename element>
 void LRU<element>::mostrar_contenedor() {
-    if (this->contenedor.size() == 0) {
+    if (this->cantidad_elementos == 0) {
         std::cout << std::endl;
         return;
     }
 
     std::cout << AZUL;
-    for (size_t i = 0; i < this->contenedor.size(); i++) {
+    for (int i = 0; i < this->cantidad_elementos; i++) {
         std::cout << this->contenedor[i] << " ";
     }
     std::cout << RESET_COLOR << std::endl;
