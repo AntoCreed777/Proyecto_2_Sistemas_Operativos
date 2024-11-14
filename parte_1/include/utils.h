@@ -2,4 +2,7 @@
 #include <fstream>
 #include <iostream>
 
-void generar_log(std::string msg, std::string ruta);
+
+namespace utils {
+    void generar_log(std::string msg, std::string ruta);
+}
