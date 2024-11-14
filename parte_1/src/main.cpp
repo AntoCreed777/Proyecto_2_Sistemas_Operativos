@@ -1,14 +1,16 @@
 #include <iostream>
 #include <thread>
+#include "../include/monitor.h"
+#include "../include/constantes.h"
 
-#include "monitor.h"
-#include "constantes.h"
 
 void productor(Monitor &monitor, int id) {
     monitor.agregarElemento(id);
+    
 
     std::cout << VERDE << "Productor: " << BLANCO << id << " " << RESET_COLOR;
     monitor.mostrarElementos();
+    
 }
 
 void consumidor(Monitor &monitor, int id) {

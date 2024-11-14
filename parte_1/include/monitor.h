@@ -14,6 +14,7 @@ private:
     int productores_esperados, productores_actuales;
     int tiempo_bloqueo;
     bool bloqueado;
+    std::string ruta_log;
 
 public:
     Monitor(int productores_esperados, int tiempo_bloqueo);

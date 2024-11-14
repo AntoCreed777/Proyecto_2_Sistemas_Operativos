@@ -1,11 +1,15 @@
 #include <iostream>
+#include <string>
 #include <thread>
 #include <mutex>
 #include <condition_variable>
 #include <vector>
+#include <fstream>
 
-#include "monitor.h"
-#include "constantes.h"
+#include "../include/monitor.h"
+#include "../include/constantes.h"
+#include "../include/utils.h"
+
 
 Monitor::Monitor(int productores_esperados, int tiempo_bloqueo) {
     this->buffer = Cola<int>();
@@ -13,12 +17,16 @@ Monitor::Monitor(int productores_esperados, int tiempo_bloqueo) {
     this->productores_actuales = 0;
     this->tiempo_bloqueo = tiempo_bloqueo;
     this->bloqueado = true;
+    this->ruta_log = "log.txt";
+
+    generar_log("\n\n\nNUEVA EJECUCION\n", this->ruta_log);
 }
 
 void Monitor::agregarElemento(int elemento) {
     std::lock_guard<std::mutex> lock(this->mutex);
     this->productores_actuales++;
     buffer.push(elemento);
+    generar_log("Se agrego el elemento "+ std::to_string(elemento), this->ruta_log);
 
     if (this->productores_actuales == this->productores_esperados) {
         std::thread hilo(&Monitor::esperar_para_desbloquear, this, this->tiempo_bloqueo);
@@ -33,7 +41,8 @@ void Monitor::quitarElemento() {
     }
 
     try {
-        buffer.pop();
+        int elemento = buffer.pop();
+        generar_log("el elemento "+ std::to_string(elemento), this->ruta_log);
     }
     catch(const std::exception& e) {
         // PASS
