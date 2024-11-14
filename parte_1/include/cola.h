@@ -1,9 +1,11 @@
 #pragma once
 #include <iostream>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 #include "constantes.h"
+#include "utils.h"
 
 template <typename elemento>
 class Cola{
@@ -58,6 +60,7 @@ Cola<elemento>::Cola(std::vector<elemento> cola_inicial){
     tail = 0;
     size_cola = cola_inicial.size();
     contenedor = cola_inicial;
+    utils::generar_log("Se inicializa la cola en " + std::to_string(contenedor), "log.txt");
 } 
 
 template <typename elemento>
@@ -69,10 +72,10 @@ void Cola<elemento>::push(elemento elem){
             contenedor_secundario[j] = contenedor[i];
         }
         contenedor_secundario[j] = contenedor[head];
-
         head = j;
         tail = 0;
         contenedor = contenedor_secundario;
+        utils::generar_log("Se a aumentado el tamanio al doble\nTamanio actual " + std::to_string(this->tamanio_contenedor()), "log.txt");
     }
 
     head = (head + 1) % this->tamanio_contenedor();
@@ -100,7 +103,9 @@ elemento Cola<elemento>::pop(){
 
         head = j;
         tail = 0;
-        contenedor = contenedor_secundario;        
+        contenedor = contenedor_secundario;
+        utils::generar_log("Se a reducido el tamanio a la mitad\nTamanio actual " + std::to_string(this->tamanio_contenedor()), "log.txt");
+        
         
     }
     elemento elem = contenedor[this->tail];
