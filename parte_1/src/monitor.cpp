@@ -42,7 +42,7 @@ void Monitor::quitarElemento() {
 
     try {
         int elemento = buffer.pop();
-        utils::generar_log("el elemento "+ std::to_string(elemento), this->ruta_log);
+        utils::generar_log("Se elimino el elemento "+ std::to_string(elemento), this->ruta_log);
     }
     catch(const std::exception& e) {
         // PASS
