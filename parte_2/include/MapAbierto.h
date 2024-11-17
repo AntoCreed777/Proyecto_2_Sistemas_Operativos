@@ -2,6 +2,7 @@
 #include <vector>
 #include <list>
 #include <iostream>
+#include <optional>
 #include "MapADT.h"
 #include "interesting_prime_numbers.h"
 #include "PaginaNoEncontradaExcepcion.h"
@@ -34,38 +35,13 @@ class MapAbierto : public MapADT{
          * 
          * @param usuarios usuario a añadir
          */
-
-
-                /**
-         * @brief funcion para insertar un elemento cuando se esta en modo user_id
-         * 
-         * @param usuarios usuario a insertar
-         */
-        void _put_with_longlong(Marco marco){
-            int index = _hashf1(marco.pagina);
-
-            //revisamos si hay un elemento con la misma key
-            try{
-                
-                Marco busqueda = this->get(marco.pagina);
-
-            }
-            catch (const PaginaNoEncontradaExcepcion& e){
-                (contenedor_marcos)[index].push_back(marco);
-
-                marcos_totales++;
-                std::cerr << "Pagina no econtrada\n";
-                return;
-            }
-
-        } 
-        void put(Marco marco) override {
+        void put(Marco marco) override {            
             _put_with_longlong(marco);
-
-            
             _verificar_cantidad_ocupada();
 
         }
+
+
         
         /**
          * @brief Metodo para obtener un usuario a partir de su user_id
@@ -74,7 +50,7 @@ class MapAbierto : public MapADT{
          * @return Marco seguidor buscado
          * @return En caso de que algo salga mal se va a devolver un usuario con el nombre Invalid user name
          */
-        Marco get(long long key) override {
+        std::optional<Marco> get(long long key) override {
 
 
             int index = _hashf1(key);
@@ -84,7 +60,7 @@ class MapAbierto : public MapADT{
                     return elem;
             }
 
-            throw PaginaNoEncontradaExcepcion();
+            return {};
         }
 
         /**
@@ -95,7 +71,7 @@ class MapAbierto : public MapADT{
          * @throw En caso de que algo salga mal se va a devolver un marco con pagina -1 valor -1
          */
          
-        Marco remove(long long key) override {
+        std::optional<Marco> remove(long long key) override {
 
             int index = _hashf1(key);
             std::list<Marco>::iterator it = (contenedor_marcos)[index].begin();
@@ -108,9 +84,8 @@ class MapAbierto : public MapADT{
                 }
 
             }
-            Marco marco = {-1,-1};
 
-            return marco;
+            return {};
 
         }
 
@@ -134,6 +109,23 @@ class MapAbierto : public MapADT{
 
         }
     private:
+        /**
+         * @brief funcion para insertar un marco
+         * 
+         * @param marco marco a insertar
+         */
+        void _put_with_longlong(Marco marco){
+            int index = _hashf1(marco.pagina);
+
+            //revisamos si hay un elemento con la misma key
+            std::optional<Marco> busqueda = this->get(marco.pagina);
+            if (!busqueda){
+                (contenedor_marcos)[index].push_back(marco);
+
+                marcos_totales++;
+            }
+
+        } 
 
         /**
          * @brief Devuelve el porcentaje de llenado del map

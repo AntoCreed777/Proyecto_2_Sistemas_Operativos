@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <optional>
 #include "Marco.h"
 
 
@@ -32,7 +33,7 @@ class MapADT{
          * @param pagina La pagina del seguidor a buscar
          * @return Marco El marco de pagina que se esta buscando.
          */
-        virtual Marco get(long long pagina) = 0;
+        virtual std::optional<Marco> get(long long pagina) = 0;
 
         /**
          * @brief Elimina un valor del map a partir de una key long long (para identificar pagina)
@@ -40,7 +41,7 @@ class MapADT{
          * @param pagina La pagina que se desea eliminar
          * @return Marco La pagina eliminada.
          */
-        virtual Marco remove(long long pagina) = 0;
+        virtual std::optional<Marco> remove(long long pagina) = 0;
 
         virtual bool empty() = 0;
         virtual int size() = 0;
