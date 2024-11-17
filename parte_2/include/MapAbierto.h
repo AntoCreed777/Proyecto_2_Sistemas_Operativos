@@ -5,14 +5,12 @@
 #include <optional>
 #include "MapADT.h"
 #include "interesting_prime_numbers.h"
-#include "PaginaNoEncontradaExcepcion.h"
-
 
 /**
  * @brief Implementacion de MapADT utilizando hashing abierto
  * 
  */
-class MapAbierto : public MapADT{
+class MapAbierto : public MapADT {
     private:
         int marcos_totales;
         std::vector<long long>::iterator siguiente_tam_contenedor;
@@ -21,12 +19,7 @@ class MapAbierto : public MapADT{
         /**
          * @brief Construye un nuevo MapAbierto
          */
-        MapAbierto(){
-            siguiente_tam_contenedor = numeros_primos_interesantes.begin();
-            contenedor_marcos.resize(*siguiente_tam_contenedor);
-            siguiente_tam_contenedor++;
-            marcos_totales = 0;
-        }
+        MapAbierto();
 
         /**
          * @brief implementacion de put de mapADT
@@ -35,33 +28,16 @@ class MapAbierto : public MapADT{
          * 
          * @param usuarios usuario a añadir
          */
-        void put(Marco marco) override {            
-            _put_with_longlong(marco);
-            _verificar_cantidad_ocupada();
+        void put(Marco marco) override;
 
-        }
-
-
-        
         /**
          * @brief Metodo para obtener un usuario a partir de su user_id
          * En caso de que algo salga mal se va a devolver un usuario con el nombre Invalid user name
          * @param key user_id del usuario a buscar
          * @return Marco seguidor buscado
-         * @return En caso de que algo salga mal se va a devolver un usuario con el nombre Invalid user name
+         * @return En casonumeros_primos_interesantes de que algo salga mal se va a devolver un usuario con el nombre Invalid user name
          */
-        std::optional<Marco> get(long long key) override {
-
-
-            int index = _hashf1(key);
-            std::list<Marco> lista = contenedor_marcos[index];
-            for (auto elem : lista){
-                if (elem.pagina == key)
-                    return elem;
-            }
-
-            return {};
-        }
+        std::optional<Marco> get(long long key) override;
 
         /**
          * @brief Implementacion clase para eliminar un elemento del map a partir de su pagina
@@ -70,29 +46,9 @@ class MapAbierto : public MapADT{
          * @return Marco el usuario eliminado.
          * @throw En caso de que algo salga mal se va a devolver un marco con pagina -1 valor -1
          */
-         
-        std::optional<Marco> remove(long long key) override {
+        std::optional<Marco> remove(long long key) override;
 
-            int index = _hashf1(key);
-            std::list<Marco>::iterator it = (contenedor_marcos)[index].begin();
-            for (auto it = (contenedor_marcos)[index].begin(); it != (contenedor_marcos)[index].end(); it++){
-                if(it->pagina == key){
-                    Marco elemento_buscado = *it;
-                    (contenedor_marcos)[index].erase(it);
-                    marcos_totales--;
-                    return elemento_buscado;
-                }
-
-            }
-
-            return {};
-
-        }
-
-       
-        int size() override {
-            return marcos_totales;
-        }
+        int size() override;
 
         /**
          * @brief se verifica si el map esta vacio o no
@@ -100,32 +56,16 @@ class MapAbierto : public MapADT{
          * @return true esta vacio
          * @return false no esta vacio
          */
-        bool empty() override {
-            return (size() == 0) ? true :  false;
-        };
+        bool empty() override;
 
-
-        ~MapAbierto(){
-
-        }
+        ~MapAbierto();
     private:
         /**
          * @brief funcion para insertar un marco
          * 
          * @param marco marco a insertar
          */
-        void _put_with_longlong(Marco marco){
-            int index = _hashf1(marco.pagina);
-
-            //revisamos si hay un elemento con la misma key
-            std::optional<Marco> busqueda = this->get(marco.pagina);
-            if (!busqueda){
-                (contenedor_marcos)[index].push_back(marco);
-
-                marcos_totales++;
-            }
-
-        } 
+        void _put_with_longlong(Marco marco);
 
         /**
          * @brief Devuelve el porcentaje de llenado del map
@@ -133,34 +73,14 @@ class MapAbierto : public MapADT{
          * y el tamanio actual del contenedor
          * @return float porcentaje de llenado
          */
-        float _porcentaje_llenado(){
-            return float(marcos_totales) / float(contenedor_marcos.size());
-        }
+        float _porcentaje_llenado();
 
         /**
          * @brief esta funcion aniade espacios al map en caso de que el porcentaje de llenado sea muy alto (0.9)
          * Si el map esta proximo a llenarse se rellena de nuevo el map.
          * Posterior a esto se procede a hacer un rehash
          */
-        void _verificar_cantidad_ocupada(){
-            if (_porcentaje_llenado() < 0.9)
-                return;
-            std::vector<std::list<Marco>>  viejo_contenedor_marcos = this->contenedor_marcos;
-            contenedor_marcos.clear();
-            this->contenedor_marcos.resize(*siguiente_tam_contenedor);
-            siguiente_tam_contenedor++;
-            marcos_totales = 0;
-
-            //hacemos rehashing
-            for (auto lista : viejo_contenedor_marcos){
-                while (!lista.empty()){
-                    Marco elemento = lista.back();
-                    lista.pop_back();
-                    put(elemento);
-                }
-            }
-
-        }
+        void _verificar_cantidad_ocupada();
 
         /**
          * @brief funcion para generar el hash correspondiente dependiendo de un valor numerico
@@ -168,8 +88,5 @@ class MapAbierto : public MapADT{
          * @param k valor numerico a hashear
          * @return int valor ya hasheado
          */
-        int _hashf1(int k) {
-            return k % (contenedor_marcos).size();
-        }
-
+        int _hashf1(int k);
 };

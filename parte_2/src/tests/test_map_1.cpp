@@ -19,31 +19,31 @@ int main() {
 
     // Verificamos la clave 10
     auto result = map.get(10);
-    std::cout << "Clave: 10, Valor esperado: 20, Valor obtenido: " << result.valor << std::endl;
+    std::cout << "Clave: 10, Valor esperado: 20, Valor obtenido: " << result->valor << std::endl;
 
     // Verificamos la clave 15
     result = map.get(15);
-    std::cout << "Clave: 15, Valor esperado: 30, Valor obtenido: " << result.valor << std::endl;
+    std::cout << "Clave: 15, Valor esperado: 30, Valor obtenido: " << result->valor << std::endl;
 
     // Verificamos la clave 20
     result = map.get(20);
-    std::cout << "Clave: 20, Valor esperado: 40, Valor obtenido: " << result.valor << std::endl;
+    std::cout << "Clave: 20, Valor esperado: 40, Valor obtenido: " << result->valor << std::endl;
 
     // Verificamos la clave 25
     result = map.get(25);
-    std::cout << "Clave: 25, Valor esperado: 50, Valor obtenido: " << result.valor << std::endl;
+    std::cout << "Clave: 25, Valor esperado: 50, Valor obtenido: " << result->valor << std::endl;
 
     // Verificamos la clave 30
     result = map.get(30);
-    std::cout << "Clave: 30, Valor esperado: 60, Valor obtenido: " << result.valor << std::endl;
+    std::cout << "Clave: 30, Valor esperado: 60, Valor obtenido: " << result->valor << std::endl;
 
     // Verificamos la clave 35
     result = map.get(35);
-    std::cout << "Clave: 35, Valor esperado: 70, Valor obtenido: " << result.valor << std::endl;
+    std::cout << "Clave: 35, Valor esperado: 70, Valor obtenido: " << result->valor << std::endl;
 
     // Verificamos la clave 40
     result = map.get(40);
-    std::cout << "Clave: 40, Valor esperado: 80, Valor obtenido: " << result.valor << std::endl;
+    std::cout << "Clave: 40, Valor esperado: 80, Valor obtenido: " << result->valor << std::endl;
 
    
 
