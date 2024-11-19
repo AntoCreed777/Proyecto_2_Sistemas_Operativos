@@ -60,7 +60,7 @@ Cola<elemento>::Cola(std::vector<elemento> cola_inicial){
     tail = 0;
     size_cola = cola_inicial.size();
     contenedor = cola_inicial;
-    utils::generar_log("Se inicializa la cola en " + std::to_string(contenedor), "log.txt");
+    utils::generar_log("Se inicializa la cola en " + utils::vector_to_string(contenedor), "log.txt");
 } 
 
 template <typename elemento>

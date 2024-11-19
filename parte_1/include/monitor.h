@@ -17,7 +17,7 @@ private:
     std::string ruta_log;
 
 public:
-    Monitor(int productores_esperados, int tiempo_bloqueo);
+    Monitor(int productores_esperados, int tamanio_inicial_cola, int tiempo_bloqueo);
 
     /**
      * @brief Agrega un elemento al buffer

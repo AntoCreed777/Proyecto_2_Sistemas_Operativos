@@ -11,15 +11,16 @@
 #include "../include/utils.h"
 
 
-Monitor::Monitor(int productores_esperados, int tiempo_bloqueo) {
-    this->buffer = Cola<int>();
+Monitor::Monitor(int productores_esperados, int tamanio_inicial_cola, int tiempo_bloqueo) {
+    utils::generar_log("\n\n\nNUEVA EJECUCION\n", this->ruta_log);
+    
+    this->buffer = Cola<int>(utils::generar_lista_aleatoria(tamanio_inicial_cola, 0, 100));
     this->productores_esperados = productores_esperados;
     this->productores_actuales = 0;
     this->tiempo_bloqueo = tiempo_bloqueo;
     this->bloqueado = true;
     this->ruta_log = "log.txt";
 
-    utils::generar_log("\n\n\nNUEVA EJECUCION\n", this->ruta_log);
 }
 
 void Monitor::agregarElemento(int elemento) {

@@ -44,11 +44,11 @@ int main(int argc, char const *argv[]) {
     int cantidad_productores;
     int cantidad_consumidores;
     int tiempo_espera; // En Segundos
-    int tamanio_cola_inicial;
+    int tamanio_inicial_cola;
 
-    cargar_argumentos(argc, argv, cantidad_productores, cantidad_consumidores, tamanio_cola_inicial, tiempo_espera);
+    cargar_argumentos(argc, argv, cantidad_productores, cantidad_consumidores, tamanio_inicial_cola, tiempo_espera);
     
-    Monitor monitor(cantidad_productores, tiempo_espera);
+    Monitor monitor(cantidad_productores, tamanio_inicial_cola, tiempo_espera);
 
     std::vector<std::thread> hilos;
 
