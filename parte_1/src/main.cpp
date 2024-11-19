@@ -47,6 +47,12 @@ int main(int argc, char const *argv[]) {
     int tamanio_inicial_cola;
 
     cargar_argumentos(argc, argv, cantidad_productores, cantidad_consumidores, tamanio_inicial_cola, tiempo_espera);
+
+    if (cantidad_productores < 0 || cantidad_consumidores < 0 || tamanio_inicial_cola < 0 || tiempo_espera < 0) {
+        std::cerr << "Error: Argumentos invalidos" << std::endl;
+        std::cerr << "Use: " << argv[0] << " -p <cantidad_productores> -c <cantidad_consumidores> -s <tamano_inicial_cola> -t <tiempo_espera>" << std::endl;
+        return 1;
+    }
     
     Monitor monitor(cantidad_productores, tamanio_inicial_cola, tiempo_espera);
 

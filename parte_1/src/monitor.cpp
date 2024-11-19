@@ -15,7 +15,10 @@ Monitor::Monitor(int productores_esperados, int tamanio_inicial_cola, int tiempo
     this->ruta_log = "log.txt";
     utils::generar_log("\n\n\nNUEVA EJECUCION\n", this->ruta_log);
     
-    this->buffer = Cola<int>(utils::generar_lista_aleatoria(tamanio_inicial_cola, 0, 100));
+    this->buffer = (tamanio_inicial_cola == 0) 
+               ? Cola<int>() 
+               : Cola<int>(utils::generar_lista_aleatoria(tamanio_inicial_cola, 0, 100));
+
     this->productores_esperados = productores_esperados;
     this->productores_actuales = 0;
     this->tiempo_bloqueo = tiempo_bloqueo;
@@ -46,7 +49,7 @@ void Monitor::quitarElemento() {
         utils::generar_log("Se elimino el elemento "+ std::to_string(elemento), this->ruta_log);
     }
     catch(const std::exception& e) {
-        // PASS
+        utils::generar_log(e.what(), this->ruta_log);
     }
 }
 
