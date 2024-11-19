@@ -15,6 +15,9 @@ private:
     int head;
     int size_cola;
 
+    void aumentar_tamanio();
+    void reducir_tamanio();
+
 public:
     Cola();
     Cola(std::vector<elemento> cola_inicial);
@@ -60,23 +63,42 @@ Cola<elemento>::Cola(std::vector<elemento> cola_inicial){
     tail = 0;
     size_cola = cola_inicial.size();
     contenedor = cola_inicial;
-    utils::generar_log("Se inicializa la cola en " + utils::vector_to_string(contenedor), "log.txt");
+    utils::generar_log("Se inicializa la cola en " + utils::vector_to_string(contenedor) + "\n\n", "log.txt");
 } 
 
 template <typename elemento>
-void Cola<elemento>::push(elemento elem){
-    if (this->size() == this->tamanio_contenedor()){
-        std::vector<elemento> contenedor_secundario(contenedor.size() * 2);
-        int j = 0;
-        for (int i = tail; i != head; i = (i + 1)%tamanio_contenedor(), j++){
-            contenedor_secundario[j] = contenedor[i];
-        }
-        contenedor_secundario[j] = contenedor[head];
-        head = j;
-        tail = 0;
-        contenedor = contenedor_secundario;
-        utils::generar_log("Se a aumentado el tamanio al doble\nTamanio actual " + std::to_string(this->tamanio_contenedor()), "log.txt");
+void Cola<elemento>::aumentar_tamanio(){
+    std::vector<elemento> contenedor_secundario(contenedor.size() * 2);
+    int j = 0;
+    for (int i = tail; i != head; i = (i + 1)%tamanio_contenedor(), j++){
+        contenedor_secundario[j] = contenedor[i];
     }
+    contenedor_secundario[j] = contenedor[head];
+    head = j;
+    tail = 0;
+    contenedor = contenedor_secundario;
+    utils::generar_log("Se a aumentado el tamanio al doble\nTamanio actual " + std::to_string(this->tamanio_contenedor()), "log.txt");
+}
+
+template <typename elemento>
+void Cola<elemento>::reducir_tamanio(){
+    std::vector<elemento> contenedor_secundario(contenedor.size() * 0.5);
+    int j = 0;
+    for (int i = tail; i != head; i = (i + 1)%tamanio_contenedor(), j++){
+        contenedor_secundario[j] = contenedor[i];
+    }
+    contenedor_secundario[j] = contenedor[head];
+
+    head = j;
+    tail = 0;
+    contenedor = contenedor_secundario;
+    utils::generar_log("Se a reducido el tamanio a la mitad\nTamanio actual " + std::to_string(this->tamanio_contenedor()), "log.txt");
+}
+
+template <typename elemento>
+void Cola<elemento>::push(elemento elem){
+    if (this->size() == this->tamanio_contenedor())
+        this->aumentar_tamanio();
 
     head = (head + 1) % this->tamanio_contenedor();
     contenedor[head] = elem;
@@ -93,21 +115,9 @@ template <typename elemento>
 elemento Cola<elemento>::pop(){
     if (!this->size())
         throw std::out_of_range("No hay elementos en la cola");
-    if (this->size() <= this->tamanio_contenedor() * 0.25){
-        std::vector<elemento> contenedor_secundario(contenedor.size() * 0.5);
-        int j = 0;
-        for (int i = tail; i != head; i = (i + 1)%tamanio_contenedor(), j++){
-            contenedor_secundario[j] = contenedor[i];
-        }
-        contenedor_secundario[j] = contenedor[head];
-
-        head = j;
-        tail = 0;
-        contenedor = contenedor_secundario;
-        utils::generar_log("Se a reducido el tamanio a la mitad\nTamanio actual " + std::to_string(this->tamanio_contenedor()), "log.txt");
-        
-        
-    }
+    if (this->size() <= this->tamanio_contenedor() * 0.25)
+        this->reducir_tamanio();
+    
     elemento elem = contenedor[this->tail];
     this->tail = (this->tail + 1) % this->tamanio_contenedor();
     size_cola--;

@@ -12,6 +12,7 @@
 
 
 Monitor::Monitor(int productores_esperados, int tamanio_inicial_cola, int tiempo_bloqueo) {
+    this->ruta_log = "log.txt";
     utils::generar_log("\n\n\nNUEVA EJECUCION\n", this->ruta_log);
     
     this->buffer = Cola<int>(utils::generar_lista_aleatoria(tamanio_inicial_cola, 0, 100));
@@ -19,7 +20,6 @@ Monitor::Monitor(int productores_esperados, int tamanio_inicial_cola, int tiempo
     this->productores_actuales = 0;
     this->tiempo_bloqueo = tiempo_bloqueo;
     this->bloqueado = true;
-    this->ruta_log = "log.txt";
 
 }
 
