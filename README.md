@@ -1,33 +1,14 @@
 # Proyecto_2_Sistemas_Operativos
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advertencia</title>
-    <style>
-        .warning {
-            color: red;
-            font-size: 2em;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="warning">
-        ¡ATENCIÓN! Para la correcta compilacion de este proyecto se requiere C++ 17 en adelante.
-    </div>
-    <div>
-    En el proyecto se utiliza la biblioteca optional por lo tanto el proyecto no va a compilar en versiones antiguas de c++.
-    </div>
-</body>
-</html>
+<div style="color: red; font-size: 1.5em; font-weight: bold; text-align: center; margin-top: 20px;">
+    ¡ATENCIÓN! Para la correcta compilación de este proyecto se requiere **C++ 17** o una versión más reciente.
+</div>
+
+En este proyecto se utiliza la biblioteca `std::optional`, lo que significa que **no compilará** en versiones antiguas de C++.
 
 ## Integrantes del grupo
-- [Carlos Tomás Álvarez Norambuena](https://github.com/Karantooo)  **(2022433621)**
-- [Antonio Jesus Benavides Puentes](https://github.com/AntoCreed777) **(2023455954)**
+- [Carlos Tomás Álvarez Norambuena](https://github.com/Karantooo) **(2022433621)**
+- [Antonio Jesús Benavides Puentes](https://github.com/AntoCreed777) **(2023455954)**
 - [Javier Alejandro Campos Contreras](https://github.com/huebitoo) **(2023432857)**
 
 ## Tecnologias utilizadas en el proyecto
