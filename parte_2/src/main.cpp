@@ -1,6 +1,9 @@
 #include <iostream>
 
 int main() {
-    std::cout << "Parte 2" << std::endl;
+    std::cout << "Parte 2" << " ";
+
+
+
     return 0;
 }
