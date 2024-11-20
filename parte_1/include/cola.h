@@ -21,6 +21,7 @@ private:
 public:
     Cola();
     Cola(std::vector<elemento> cola_inicial);
+    Cola(int tamanio_inicial);
 
     void push(elemento elem);
 
@@ -65,6 +66,17 @@ Cola<elemento>::Cola(std::vector<elemento> cola_inicial){
     contenedor = cola_inicial;
     utils::generar_log("Se inicializa la cola en " + utils::vector_to_string(contenedor) + "\n\n", "log.txt");
 } 
+
+template<typename elemento>
+Cola<elemento>::Cola(int tamanio_inicial){
+    head = 0;
+    tail = 0;
+    size_cola = 0;
+    contenedor = std::vector<elemento>(tamanio_inicial);
+
+}
+
+
 
 template <typename elemento>
 void Cola<elemento>::aumentar_tamanio(){
