@@ -8,7 +8,7 @@
 
 class Monitor {
 private:
-    Cola<int> buffer;
+    Cola<int> *buffer;
     std::mutex mutex;
     std::condition_variable condConsumidores;
     int tiempo_bloqueo;

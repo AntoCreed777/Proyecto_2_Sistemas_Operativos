@@ -15,10 +15,10 @@
 Monitor::Monitor(int tamanio_inicial_cola, int tiempo_bloqueo) {
     this->ruta_log = "log.txt";
     utils::generar_log("\n\n\nNUEVA EJECUCION\n", this->ruta_log);
-    
+        
     this->buffer = (tamanio_inicial_cola == 0)
-               ? Cola<int>() 
-               : Cola<int>(utils::generar_lista_aleatoria(tamanio_inicial_cola, 0, 100));
+                    ? new Cola<int>()
+                    : new Cola<int>(utils::generar_lista_aleatoria(tamanio_inicial_cola, 0, 100));
 
     this->tiempo_bloqueo = tiempo_bloqueo;
 }
@@ -26,7 +26,7 @@ Monitor::Monitor(int tamanio_inicial_cola, int tiempo_bloqueo) {
 void Monitor::agregarElemento(int elemento) {
     std::lock_guard<std::mutex> lock(this->mutex);
 
-    buffer.push(elemento);
+    buffer->push(elemento);
     this->condConsumidores.notify_one();
 }
 
@@ -37,7 +37,7 @@ void Monitor::quitarElemento() {
 
     while (true) {
         try {
-            buffer.pop();
+            buffer->pop();
             return;
         }
         catch (const std::exception& e) {
@@ -67,17 +67,17 @@ void Monitor::mostrarElementos() {
     this->mutex.lock();
 
     std::cout << AMARILLO << "Buffer: " << RESET_COLOR;
-    buffer.mostrar_contenedor();
+    buffer->mostrar_contenedor();
 
     this->mutex.unlock();
 }
 
 bool Monitor::isEmpty() {
     std::lock_guard<std::mutex> lock(this->mutex);
-    return buffer.size() == 0;
+    return buffer->size() == 0;
 }
 
 int Monitor::cantidadElementos() {
     std::lock_guard<std::mutex> lock(this->mutex);
-    return buffer.size();
+    return buffer->size();
 }
