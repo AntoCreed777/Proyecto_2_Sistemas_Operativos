@@ -59,7 +59,7 @@ Cola<elemento>::Cola(){
     size_cola = 0;
     contenedor = std::vector<elemento>(1);
     utils::generar_log(
-        "\n\n\n\nSe inicializa la cola en 0 elementos\n\n",
+        "\n\nSe inicializa la cola con 0 elementos\n\n",
         this->ruta_default_log
     );
 } 
@@ -83,7 +83,7 @@ Cola<elemento>::Cola(size_t tamanio_inicial){
     size_cola = 0;
     contenedor = std::vector<elemento>(tamanio_inicial);
     utils::generar_log(
-        "\n\n\n\nSe inicializa la cola en 0 elementos pero con memoria definida por defecto\n\n",
+        "\n\n\n\nSe inicializa la cola con 0 elementos pero con memoria definida por defecto\n\n",
         this->ruta_default_log
     );
 

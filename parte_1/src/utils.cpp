@@ -7,7 +7,7 @@
 void utils::generar_log(std::string msg, std::string ruta){
     std::fstream archivo(ruta, std::ios::app);
     if (!archivo.is_open()){
-        std::cerr << "archivo no se a podido abrir\n";
+        std::cerr << "archivo no se a podido abrir/crear el log\n";
         return;
     }
     archivo << msg << std::endl;

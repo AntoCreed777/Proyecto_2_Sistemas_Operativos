@@ -21,15 +21,17 @@ void consumidor(Monitor &monitor, int id) {
 
 void cargar_argumentos(int argc, char const *argv[], int &cantidad_productores, int &cantidad_consumidores, int &tamano_inicial_cola, int &tiempo_espera) {
     for (int i = 1; i < argc; i++) {
-        if (std::string(argv[i]) == "-p") {
+        if (std::string(argv[i]) == "-p")
             cantidad_productores = std::stoi(argv[i + 1]);
-        } else if (std::string(argv[i]) == "-c") {
+
+        else if (std::string(argv[i]) == "-c")
             cantidad_consumidores = std::stoi(argv[i + 1]);
-        } else if (std::string(argv[i]) == "-s") {
+
+        else if (std::string(argv[i]) == "-s")
             tamano_inicial_cola = std::stoi(argv[i + 1]);
-        } else if (std::string(argv[i]) == "-t") {
+
+        else if (std::string(argv[i]) == "-t")
             tiempo_espera = std::stoi(argv[i + 1]);
-        }
     }
 }
 
@@ -40,10 +42,11 @@ int main(int argc, char const *argv[]) {
         return 1;
     }
 
-    int cantidad_productores;
-    int cantidad_consumidores;
-    int tiempo_espera; // En Segundos
-    int tamanio_inicial_cola;
+    // Argumentos (Se inicializan en -1 para verificar que se hayan cargado)
+    int cantidad_productores = -1;
+    int cantidad_consumidores = -1;
+    int tiempo_espera = -1; // En Segundos
+    int tamanio_inicial_cola = -1;
 
     cargar_argumentos(argc, argv, cantidad_productores, cantidad_consumidores, tamanio_inicial_cola, tiempo_espera);
 
