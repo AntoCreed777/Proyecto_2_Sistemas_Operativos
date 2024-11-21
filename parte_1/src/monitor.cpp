@@ -3,53 +3,63 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+#include <chrono>
 #include <vector>
-#include <fstream>
+#include <sstream>
 
 #include "../include/monitor.h"
 #include "../include/constantes.h"
 #include "../include/utils.h"
 
 
-Monitor::Monitor(int productores_esperados, int tamanio_inicial_cola, int tiempo_bloqueo) {
+Monitor::Monitor(int tamanio_inicial_cola, int tiempo_bloqueo) {
     this->ruta_log = "log.txt";
     utils::generar_log("\n\n\nNUEVA EJECUCION\n", this->ruta_log);
     
-    this->buffer = (tamanio_inicial_cola == 0) 
+    this->buffer = (tamanio_inicial_cola == 0)
                ? Cola<int>() 
                : Cola<int>(utils::generar_lista_aleatoria(tamanio_inicial_cola, 0, 100));
 
-    this->productores_esperados = productores_esperados;
-    this->productores_actuales = 0;
     this->tiempo_bloqueo = tiempo_bloqueo;
-    this->bloqueado = true;
-
 }
 
 void Monitor::agregarElemento(int elemento) {
     std::lock_guard<std::mutex> lock(this->mutex);
-    this->productores_actuales++;
-    buffer.push(elemento);
-    utils::generar_log("Se agrego el elemento "+ std::to_string(elemento), this->ruta_log);
 
-    if (this->productores_actuales == this->productores_esperados) {
-        std::thread hilo(&Monitor::esperar_para_desbloquear, this, this->tiempo_bloqueo);
-        hilo.detach();
-    }
+    buffer.push(elemento);
+    this->condConsumidores.notify_one();
 }
 
 void Monitor::quitarElemento() {
     std::unique_lock<std::mutex> lock(this->mutex);
-    while (this->bloqueado) {
-        this->condConsumidores.wait(lock);
-    }
 
-    try {
-        int elemento = buffer.pop();
-        utils::generar_log("Se elimino el elemento "+ std::to_string(elemento), this->ruta_log);
-    }
-    catch(const std::exception& e) {
-        utils::generar_log(e.what(), this->ruta_log);
+    std::ostringstream oss;
+
+    while (true) {
+        try {
+            buffer.pop();
+            return;
+        }
+        catch (const std::exception& e) {
+            utils::generar_log(e.what(), this->ruta_log);
+
+            oss << "Consumidor bloqueado en la hebra: " << std::this_thread::get_id();
+            utils::generar_log(oss.str(), this->ruta_log);
+            oss.str(""); // Vacía el contenido
+            oss.clear(); // Opcional, pero asegura el estado limpio del flujo
+        }
+
+        if (this->condConsumidores.wait_for(lock, std::chrono::seconds(this->tiempo_bloqueo)) == std::cv_status::timeout) {
+            oss << "Timeout agotado del consumidor en la hebra: " << std::this_thread::get_id();
+            utils::generar_log(oss.str(), this->ruta_log);
+                        
+            return;
+        }
+
+        oss << "Consumidor desbloqueado en la hebra: " << std::this_thread::get_id();
+        utils::generar_log(oss.str(), this->ruta_log);
+        oss.str("");
+        oss.clear();
     }
 }
 
@@ -70,11 +80,4 @@ bool Monitor::isEmpty() {
 int Monitor::cantidadElementos() {
     std::lock_guard<std::mutex> lock(this->mutex);
     return buffer.size();
-}
-
-void Monitor::esperar_para_desbloquear(int segundos) {
-        std::this_thread::sleep_for(std::chrono::seconds(this->tiempo_bloqueo));
-        this->bloqueado = false;
-        this->productores_actuales = 0;
-        this->condConsumidores.notify_all();
 }

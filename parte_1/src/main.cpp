@@ -6,7 +6,6 @@
 
 void productor(Monitor &monitor, int id) {
     monitor.agregarElemento(id);
-    
 
     std::cout << VERDE << "Productor: " << BLANCO << id << " " << RESET_COLOR;
     monitor.mostrarElementos();
@@ -54,7 +53,7 @@ int main(int argc, char const *argv[]) {
         return 1;
     }
     
-    Monitor monitor(cantidad_productores, tamanio_inicial_cola, tiempo_espera);
+    Monitor monitor(tamanio_inicial_cola, tiempo_espera);
 
     std::vector<std::thread> hilos;
 

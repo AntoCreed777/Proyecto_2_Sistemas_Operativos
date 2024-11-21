@@ -62,8 +62,6 @@ Cola<elemento>::Cola(){
         "\n\n\n\nSe inicializa la cola en 0 elementos\n\n",
         this->ruta_default_log
     );
-
-
 } 
 
 template <typename elemento>
@@ -130,7 +128,8 @@ void Cola<elemento>::push(elemento elem){
     head = (head + 1) % this->tamanio_contenedor();
     contenedor[head] = elem;
     size_cola++;
-    utils::generar_log("Se añadio a la cola " + std::to_string(elem), this->ruta_default_log);
+
+    utils::generar_log("Se agrego el elemento "+ std::to_string(elem), this->ruta_default_log);
 }
 
 
@@ -150,7 +149,6 @@ elemento Cola<elemento>::pop(){
     this->tail = (this->tail + 1) % this->tamanio_contenedor();
     size_cola--;
     utils::generar_log("Se elimino de la cola " + std::to_string(elem), this->ruta_default_log);
-
 
     return elem;
 }

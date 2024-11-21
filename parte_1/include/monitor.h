@@ -11,13 +11,11 @@ private:
     Cola<int> buffer;
     std::mutex mutex;
     std::condition_variable condConsumidores;
-    int productores_esperados, productores_actuales;
     int tiempo_bloqueo;
-    bool bloqueado;
     std::string ruta_log;
 
 public:
-    Monitor(int productores_esperados, int tamanio_inicial_cola, int tiempo_bloqueo);
+    Monitor(int tamanio_inicial_cola, int tiempo_bloqueo);
 
     /**
      * @brief Agrega un elemento al buffer
