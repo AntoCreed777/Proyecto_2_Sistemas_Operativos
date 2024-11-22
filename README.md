@@ -33,7 +33,31 @@ La versión de gcc recomendada para compilar el proyecto es *g++ (GCC) 14.2.1*. 
 ### Comandos para ejecutar el código 
 El repositorio esta compuesto de 2 partes que están aisladas entre sí. Cada parte esta en su propia carpeta que estan diferenciada por  ```parte_1``` y ```parte_2```.
 
-Para compilarlo y ejecutarlo simplemente vaya a la carpeta de la parte que quiere ejecutar y escriba el comando ```make run```. 
+Para compilarlo y ejecutarlo con valores predeterminados, simplemente vaya a la carpeta de la parte que quiere ejecutar y escriba el comando ```make run```.
+
+Si desea utilizar valores personalizados, siga estos pasos:
+
+1. Dirígase a la carpeta correspondiente de la parte que deseas compilar.
+2. Ejecuta el siguiente comando para compilar el proyecto:
+
+  ```bash
+   make
+  ```
+Luego de compilar, ejecuta el ejecutable ``main.out`` utilizando las FLAGS correspondientes de los ejemplos proporcionados.
+
+### Ejemplos:
+
+- **Parte_1:** Si desea que se generen ``2 productores``, ``5 consumidores``, con un tamaño de cola inicial de `0` y un tiempo de espera máximo de los consumidores de `1 segundo`, el comando sería:
+
+  ```bash
+  ./main.out -p 2 -c 5 -s 0 -t 1
+  ```
+
+  - Parte_2: ***EXPLICACION***
+  
+  ```bash
+  ./main.out
+  ```
 
 
 
