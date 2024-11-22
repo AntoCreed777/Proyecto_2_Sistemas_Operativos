@@ -5,3 +5,6 @@
 # Ignorar todos los archivos ejecutables
 *.out
 *.txt
+
+# Ignorar los .vscode
+.vscode/
