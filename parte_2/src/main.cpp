@@ -40,14 +40,22 @@ void manejar_argumentos(int argc, char const *argv[], int &numero_de_marcos, std
 
 int main(int argc, char const *argv[]) {
 
-    if(argc != 7)
-        std::cout << ROJO "Los argumentos debe ser" << argv[0] << " -m <numero marco de páginas> -a <algoritmo de remplazo> -f <nombre del archivo con las referencias>" RESET_COLOR << std::endl;
-    
+    if(argc != 7){
+        std::cerr << ROJO "Los argumentos debe ser" << argv[0] << " -m <numero marco de páginas> -a <algoritmo de remplazo> -f <nombre del archivo con las referencias>" RESET_COLOR << std::endl;
+        return 1;
+    }
+
     int numero_de_marcos = -1;
-    std::string nombre_algoritmo;
-    std::vector<int> referencias;
+    std::string nombre_algoritmo = "";
+    std::vector<int> referencias = {};
 
     manejar_argumentos(argc, argv, numero_de_marcos, referencias, nombre_algoritmo); // Funciona
+
+    if(numero_de_marcos < 0 || nombre_algoritmo == "" || referencias.empty()){
+        std::cerr << "Argumentos erroneos" << std::endl;
+        std::cerr << "Los argumentos debe ser" << argv[0] << " -m <numero marco de páginas> -a <algoritmo de remplazo> -f <nombre del archivo con las referencias>" RESET_COLOR <<std::endl;
+        return 1;
+    }
 
     if(nombre_algoritmo == "FIFO"){
         Cola<int> algoritmo(numero_de_marcos);
@@ -57,7 +65,7 @@ int main(int argc, char const *argv[]) {
             algoritmo.mostrar_contenedor();
         }
     }
-    else if(nombre_algoritmo == "LRUR"){
+    else if(nombre_algoritmo == "LRUR"){                // LRU Reloj Simple  
         LRU_TIME<int> algoritmo(numero_de_marcos);
 
         for(int valores_referencias : referencias){
@@ -81,6 +89,11 @@ int main(int argc, char const *argv[]) {
             algoritmo.mostrar_contenedor();
         }
     }
-
+    else {
+        std::cerr << "Algoritmo invalido" << std::endl;
+        std::cerr << "Algoritmos validos son FIFO, LRU, LRUR (Reloj simple) y Optimo" << std::endl;
+        return 1;
+    }
+    
     return 0;
 }
