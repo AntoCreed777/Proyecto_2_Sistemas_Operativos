@@ -41,12 +41,11 @@ int main() {
     std::cout << "Tamaño esperado después de eliminar: 4, Tamaño obtenido: " << map.size() << std::endl;
 
     // Verificar que la clave 3 ya no está presente
-    try {
-        result = map.get(3);
+    result = map.get(3);
+    if (result.has_value())
         std::cout << "Error: Clave 3 debería haber sido eliminada, pero se encontró con valor: " << result->valor << std::endl;
-    } catch (const std::exception &e) {
-        std::cout << "Clave 3 correctamente eliminada. Excepción capturada: " << e.what() << std::endl;
-    }
+    else
+        std::cout << "Clave 3 correctamente eliminada." << std::endl;
 
     // Verificar si el mapa está vacío
     std::cout << "\nVerificando si el mapa está vacío:" << std::endl;

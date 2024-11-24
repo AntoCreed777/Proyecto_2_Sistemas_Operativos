@@ -20,7 +20,7 @@ std::optional<Marco> MapAbierto::get(long long key) {
             return elem;
         }
     }
-    return {};
+    return std::nullopt;
 }
 
 std::optional<Marco> MapAbierto::remove(long long key) {
