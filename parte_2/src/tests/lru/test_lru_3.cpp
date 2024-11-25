@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <lru.h>
+#include "../../../include/lru.h"
 
 /*
 Este test verifica que el contenedor LRU se comporte de la forma esperada 
@@ -9,46 +9,25 @@ y que los elementos que se insertan son iguales o distintos a los que ya se encu
 */
 
 int main(){
-    LRU<int> lru(5);
+    LRU lru(5);
 
     lru.push(1);
-        lru.mostrar_contenedor();
-
     lru.push(2);
-        lru.mostrar_contenedor();
-
     lru.push(3);
-        lru.mostrar_contenedor();
-
     lru.push(4);
-        lru.mostrar_contenedor();
-
     lru.push(5);
-        lru.mostrar_contenedor();
-    
     lru.push(1);
-        lru.mostrar_contenedor();
-
     lru.push(2);
-        lru.mostrar_contenedor();
-
     lru.push(5);
-        lru.mostrar_contenedor();
-    
     lru.push(6);
-        lru.mostrar_contenedor();
-    
 
-    // Deberia imprimir:
-    // 1
-    // 1 2
-    // 1 2 3
-    // 1 2 3 4
-    // 1 2 3 4 5
-    // 2 3 4 5 1
-    // 3 4 5 1 2
-    // 3 4 1 2 5
-    // 4 1 2 5 6
+    std::cout << "Hits: " << lru.getHits() << std::endl;
+    std::cout << "Misses: " << lru.getMisses() << std::endl;
+
+    /*
+    Hits: 3
+    Misses: 6 
+    */
 
     return 0;
 }
