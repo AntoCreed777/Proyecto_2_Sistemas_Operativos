@@ -1,22 +1,23 @@
 #pragma once
 #include <iostream>
 #include <vector>
+
 #include "constantes.h"
+#include "MapAbierto.h"
+#include "Marco.h"
 
 #define NO_SE_ENCONTRO -1
 #define MAXVALUE 1024
  
-template <typename element>
 class Optimo{
     private: 
-        std::vector<element> contenedor;
+        std::vector<int> contenedor;
         int indice_lista_referencia;
         int hits;
         int misses;
         int cantidad_elementos;
-        int busqueda_lineal(element e);
-        std::vector<element> lista_de_referencias;
-
+        MapAbierto map;
+        std::vector<int> lista_de_referencias;
         int paginaRemplazo(){
             int distancia_maxima = -1;
             int indice_remplazar = -1;
@@ -45,16 +46,16 @@ class Optimo{
         }
 
     public:
-        Optimo(int size, std::vector<element> lista_de_procesos);
-        void push(element e);
+        Optimo(int size, std::vector<int> lista_de_procesos);
+        void push(int e);
         void mostrar_contenedor();
-        int getHits() { return hits; };
-        int getMisses() { return misses; };
+        int getHits() { return this->hits; };
+        int getMisses() { return this->misses; };
 };
 
-template <typename element>
-Optimo<element>::Optimo(int size, std::vector<element> lista_de_referencias) {
-    this->contenedor = std::vector<element>(size);
+Optimo::Optimo(int size, std::vector<int> lista_de_referencias) {
+    this->contenedor = std::vector<int>(size);
+    this->map = MapAbierto();
     this->lista_de_referencias = lista_de_referencias;
     this->hits = 0;
     this->misses = 0;
@@ -63,47 +64,41 @@ Optimo<element>::Optimo(int size, std::vector<element> lista_de_referencias) {
 }
 
 
-template <typename element>
-void Optimo<element>::push(element e) {
-    int posicion = this->busqueda_lineal(e);
+void Optimo::push(int valor) {
+    auto posicion = this->map.get(valor);
+
 
     // Si no lo encuentra en el contenedor
-    if (posicion == NO_SE_ENCONTRO) {
-        this->misses++;
-        if (int(this->contenedor.size()) == cantidad_elementos) {  // Si el contenedor está lleno
-            int remplazo = paginaRemplazo();
-            this->contenedor.erase(this->contenedor.begin() + remplazo); // Elimina el que mas lejos está referenciado
-            this->contenedor.push_back(e);                      // Inserta el nuevo elemento al final
-        }
-        else{
-            this->contenedor[this->cantidad_elementos] = e;
-            this->cantidad_elementos++;
-        }
-    } else {
+    if (posicion.has_value()){
         this->hits++;
+
+    } else {
+        this->misses++;
+
+        if (this->map.size() < this->cantidad_elementos) {  // Si el contenedor tiene espacio
+            this->map.put({valor, this->map.size() + 1});
+            this->contenedor[this->cantidad_elementos] = valor;
+
+        } else {
+            int remplazo = paginaRemplazo();
+            int eliminar = this->contenedor[remplazo];
+
+            auto resultado = this->map.get(eliminar);
+            this->map.remove(eliminar);
+
+            this->contenedor.erase(this->contenedor.begin() + remplazo); // Elimina el que mas lejos está referenciado
+            this->contenedor.push_back(valor);                           // Inserta el nuevo elemento al final
+
+            this->map.put({valor, posicion->valor});
+        }
     }
+    
     this->indice_lista_referencia++;
 }
 
 
-
-
-template <typename element>
-int Optimo<element>::busqueda_lineal(element e) {
-    for (int i=0;i<cantidad_elementos;i++)
-        if (contenedor[i] == e) return i;
-    
-    return NO_SE_ENCONTRO;
-}
-
-
-
-
-
-template <typename element>
-void Optimo<element>::mostrar_contenedor() {
+void Optimo::mostrar_contenedor() {
     if (this->cantidad_elementos == 0) {
-        std::cout << std::endl;
         return;
     }
 

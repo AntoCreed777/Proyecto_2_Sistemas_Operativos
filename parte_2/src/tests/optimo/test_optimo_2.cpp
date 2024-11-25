@@ -1,19 +1,28 @@
 #include <iostream>
 #include <vector>
-#include "../../include/optimo.h"
+#include "../../../include/optimo.h"
 
 int main() {
-    std::vector<int> lista_de_referencias = {1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 3}, nuevo;
+    std::vector<int> lista_de_referencias = {1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 3};
 
-    Optimo<int> optimo(3, lista_de_referencias);
+    Optimo optimo(3, lista_de_referencias);
+
 
     for (int elemento: lista_de_referencias) {
         optimo.push(elemento);
         optimo.mostrar_contenedor();
     }
 
+    std::cout << "Hits: " << optimo.getHits() << std::endl;
+    std::cout << "Misses: " << optimo.getMisses() << std::endl;
 
-    // Printeo ideal
+    /*
+    Hits: 6
+    Misses: 9
+    */
+
+
+    // Como se vería el sistema
     // 1 
     // 1 
     // 1 

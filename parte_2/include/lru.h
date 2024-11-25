@@ -60,12 +60,12 @@ void LRU::push(int element){
             return;
         }
         
-        int victima = this->cola.back();            // Tomo el ultimo de la queue
+        int victima = this->cola.front();            // Tomo el ultimo de la queue
         this->cola.pop();                           // Elimino el ultimo 
 
-        auto marco_algo = this->map.get(victima);   // Tomar los datos del map de la victima
+        auto resultado = this->map.get(victima);   // Tomar los datos del map de la victima
 
-        if(!marco_algo.has_value())
+        if(!resultado.has_value())
             exit(EXIT_FAILURE);
 
         this->map.remove(victima);
