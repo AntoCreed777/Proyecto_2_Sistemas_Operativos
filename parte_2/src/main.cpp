@@ -8,54 +8,67 @@
 #include "../include/fifo.h"
 #include "../include/constantes.h"
 
+void mensaje_error_argumentos(char const *argv[]) {
+    std::cerr << ROJO << "Error: Argumentos invalidos" << RESET_COLOR << std::endl;
+    std::cerr << AZUL << "Use: " << AMARILLO << argv[0] << " -m <numero marco de páginas> -a <algoritmo de remplazo> -f <nombre del archivo con las referencias>" RESET_COLOR << std::endl;
+    exit(EXIT_FAILURE);
+}
+
 void manejar_argumentos(int argc, char const *argv[], int &numero_de_marcos, std::vector<int> &referencias, std::string &algoritmo){
-    for(int i = 0; i < argc; i++){
-        if(std::string(argv[i]) == "-m"){                            // Numero de marcos
-            numero_de_marcos = std::atoi(argv[i + 1]) ? std::atoi(argv[++i]) : -1;
+    for(int i=1; i < argc; i+=2){
+        if (std::string(argv[i]) == "-m" && i+1 < argc) {
+            if (std::atoi(argv[i + 1]) <= 0) {
+                std::cerr << ROJO "El numero de marcos debe ser mayor a 0.\n" RESET_COLOR << std::endl;
+                mensaje_error_argumentos(argv);
+            }
+
+            numero_de_marcos = std::atoi(argv[i + 1]);
         }
-        else if(std::string(argv[i]) == "-a"){                       // Seleccionar algoritmo
-            algoritmo = std::string(argv[++i]);
+        else if (std::string(argv[i]) == "-a" && i+1 < argc) {
+            if (std::string(argv[i + 1]) != "FIFO" && std::string(argv[i + 1]) != "LRU" && std::string(argv[i + 1]) != "LRUR" && std::string(argv[i + 1]) != "Optimo") {
+                std::cerr << ROJO "Algoritmo invalido.\n" RESET_COLOR << std::endl;
+                std::cerr << AMARILLO "Algoritmos validos son FIFO, LRU, LRUR (Reloj simple) y Optimo" RESET_COLOR << std::endl;
+                mensaje_error_argumentos(argv);
+            }
+
+            algoritmo = std::string(argv[i + 1]);
         }
-        else if(std::string(argv[i]) == "-f"){                       // Archivo con las referencias
-            std::ifstream archivo_referencias(argv[++i]);
-            if(archivo_referencias){
-                
+        else if (std::string(argv[i]) == "-f" && i+1 < argc) {
+            std::ifstream archivo_referencias(argv[i + 1]);
+            if (archivo_referencias) {
                 std::string linea;
-                
-                while(std::getline(archivo_referencias, linea)){
+                while (std::getline(archivo_referencias, linea)) {
                     std::istringstream iss(linea);
                     std::string token;
-
-                    while(std::getline(iss, token, ' ')){                   // Extraer por separado los numeros
-                        referencias.push_back(std::stoi(token));            // stoi() maneja un string directamente y lo transforma a int 
+                    while (std::getline(iss, token, ' ')) {
+                        referencias.push_back(std::stoi(token));
                     }
                 }
+
                 archivo_referencias.close();
+
+                if (referencias.empty()) {
+                    std::cerr << ROJO "El archivo de referencias esta vacio.\n" RESET_COLOR << std::endl;
+                    mensaje_error_argumentos(argv);
+                }
             }
-            else 
+            else {
                 std::cout << ROJO "No se pudo abrir el archivo.\n" RESET_COLOR << std::endl;
+                mensaje_error_argumentos(argv);
+            }
         }
     }
 }
 
 int main(int argc, char const *argv[]) {
 
-    if(argc != 7){
-        std::cerr << ROJO "Los argumentos debe ser" << argv[0] << " -m <numero marco de páginas> -a <algoritmo de remplazo> -f <nombre del archivo con las referencias>" RESET_COLOR << std::endl;
-        return 1;
-    }
+    if(argc != 7) mensaje_error_argumentos(argv);
 
-    int numero_de_marcos = -1;
-    std::string nombre_algoritmo = "";
+    int numero_de_marcos;
+    std::string nombre_algoritmo;
     std::vector<int> referencias = {};
 
-    manejar_argumentos(argc, argv, numero_de_marcos, referencias, nombre_algoritmo); // Funciona
-
-    if(numero_de_marcos < 0 || nombre_algoritmo == "" || referencias.empty()){
-        std::cerr << ROJO "Argumentos erroneos" RESET_COLOR << std::endl;
-        std::cerr << ROJO "Los argumentos debe ser" << argv[0] << " -m <numero marco de páginas> -a <algoritmo de remplazo> -f <nombre del archivo con las referencias>" RESET_COLOR <<std::endl;
-        return 1;
-    }
+    manejar_argumentos(argc, argv, numero_de_marcos, referencias, nombre_algoritmo);
 
     if(nombre_algoritmo == "FIFO"){
         FIFO algoritmo(numero_de_marcos);
