@@ -3,11 +3,12 @@
 #include <iostream>
 #include <queue>
 
+#include "manejador_fallos_pagina.h"
 #include "MapAbierto.h"
-#include "constantes.h"
 #include "Marco.h"
+#include "constantes.h"
 
-class FIFO {
+class FIFO: public ManejadorFallosPagina {
     private:
         MapAbierto map;
         std::queue<int> cola;
@@ -15,7 +16,7 @@ class FIFO {
 
     public:
         FIFO(int tamano);
-        void push(int valor);
-        int getHits() { return hits;}
-        int getMisses() { return misses;}
+        void push(int valor) override;
+        int getHits() override { return hits;}
+        int getMisses() override { return misses;}
 };

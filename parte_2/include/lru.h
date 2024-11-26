@@ -3,13 +3,14 @@
 #include <vector>
 #include <queue>
 
-#include "constantes.h"
+#include "manejador_fallos_pagina.h"
 #include "MapAbierto.h"
 #include "Marco.h"
+#include "constantes.h"
 
 #define NO_SE_ENCONTRO -1
 
-class LRU {
+class LRU: public ManejadorFallosPagina {
     private:
         MapAbierto map;
         std::queue<int> cola;
@@ -17,7 +18,7 @@ class LRU {
 
     public:
         LRU(int size);
-        void push(int e);
-        int getHits() {return this->hits;};
-        int getMisses(){return this->misses;};
+        void push(int element) override;
+        int getHits() override {return this->hits;};
+        int getMisses() override {return this->misses;};
 };

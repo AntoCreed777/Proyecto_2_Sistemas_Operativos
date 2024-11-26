@@ -2,6 +2,8 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+
+#include "../include/manejador_fallos_pagina.h"
 #include "../include/lru.h"
 #include "../include/lru_time.h"
 #include "../include/optimo.h"
@@ -70,51 +72,27 @@ int main(int argc, char const *argv[]) {
 
     manejar_argumentos(argc, argv, numero_de_marcos, referencias, nombre_algoritmo);
 
-    if(nombre_algoritmo == "FIFO"){
-        FIFO algoritmo(numero_de_marcos);
+    ManejadorFallosPagina *algoritmo;
 
-        for(int valores_referencias : referencias){
-            algoritmo.push(valores_referencias);
-        }
+    if (nombre_algoritmo == "FIFO")
+        algoritmo = new FIFO(numero_de_marcos);
 
-        std::cout << AMARILLO "Hits: " RESET_COLOR << algoritmo.getHits() << std::endl;
-        std::cout << AMARILLO "Misses: " RESET_COLOR << algoritmo.getMisses() << std::endl;
-    }
-    else if(nombre_algoritmo == "LRUR"){                // LRU Reloj Simple  
-        LRU_TIME algoritmo(numero_de_marcos);
+    else if (nombre_algoritmo == "LRU")
+        algoritmo = new LRU(numero_de_marcos);
 
-        for(int valores_referencias : referencias){
-            algoritmo.push(valores_referencias);
-        }
+    else if (nombre_algoritmo == "LRUR")
+        algoritmo = new LRU_TIME(numero_de_marcos);
+    
+    else if (nombre_algoritmo == "Optimo")
+        algoritmo = new Optimo(numero_de_marcos, referencias);
+    
+    // Se supone que la validacion de los argumentos ya se hizo, por eso no hay un ´´´else´´´ final
 
-        std::cout << AMARILLO "Hits: " RESET_COLOR << algoritmo.getHits() << std::endl;
-        std::cout << AMARILLO "Misses: " RESET_COLOR << algoritmo.getMisses() << std::endl;
-    }   
-    else if(nombre_algoritmo == "LRU"){
-        LRU algoritmo(numero_de_marcos);
-        
-        for(int valores_referencias : referencias){
-            algoritmo.push(valores_referencias);
-        }
+    for (int valor_referencia : referencias)
+        algoritmo->push(valor_referencia);
 
-        std::cout << AMARILLO "Hits: " RESET_COLOR << algoritmo.getHits() << std::endl;
-        std::cout << AMARILLO "Misses: " RESET_COLOR << algoritmo.getMisses() << std::endl;
-    }
-    else if(nombre_algoritmo == "Optimo"){
-        Optimo algoritmo(numero_de_marcos, referencias);
-        
-        for(int valores_referencias : referencias){
-            algoritmo.push(valores_referencias);
-        }
-
-        std::cout << AMARILLO "Hits: " RESET_COLOR << algoritmo.getHits() << std::endl;
-        std::cout << AMARILLO "Misses: " RESET_COLOR << algoritmo.getMisses() << std::endl;
-    }
-    else {
-        std::cerr << ROJO "Algoritmo invalido" << std::endl;
-        std::cerr << AMARILLO "Algoritmos validos son FIFO, LRU, LRUR (Reloj simple) y Optimo" RESET_COLOR << std::endl;
-        return 1;
-    }
+    std::cout << AMARILLO "Hits: " RESET_COLOR << algoritmo->getHits() << std::endl;
+    std::cout << AMARILLO "Misses: " RESET_COLOR << algoritmo->getMisses() << std::endl;
 
     return 0;
 }

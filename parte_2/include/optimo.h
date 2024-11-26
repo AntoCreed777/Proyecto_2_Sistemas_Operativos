@@ -2,14 +2,15 @@
 #include <iostream>
 #include <vector>
 
-#include "constantes.h"
+#include "manejador_fallos_pagina.h"
 #include "MapAbierto.h"
 #include "Marco.h"
+#include "constantes.h"
 
 #define NO_SE_ENCONTRO -1
 #define MAXVALUE 1024
  
-class Optimo{
+class Optimo: public ManejadorFallosPagina {
     private: 
         std::vector<int> contenedor;
         MapAbierto map;
@@ -22,8 +23,8 @@ class Optimo{
 
     public:
         Optimo(int size, std::vector<int> lista_de_procesos);
-        void push(int e);
+        void push(int valor) override;
         void mostrar_contenedor();
-        int getHits() { return this->hits; };
-        int getMisses() { return this->misses; };
+        int getHits() override { return this->hits; };
+        int getMisses() override { return this->misses; };
 };

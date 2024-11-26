@@ -3,14 +3,15 @@
 #include <stdexcept>
 #include <vector>
 
-#include "constantes.h"
+#include "manejador_fallos_pagina.h"
 #include "MapAbierto.h"
 #include "Marco.h"
+#include "constantes.h"
 
 #define NO_SE_ENCONTRO -1
 
 
-class LRU_TIME{
+class LRU_TIME: public ManejadorFallosPagina {
 private:
     std::vector<int> paginas_cargadas;
     MapAbierto map;
@@ -44,9 +45,9 @@ private:
 public:
     LRU_TIME(int tamano);
 
-    void push(int elem);
+    void push(int elem) override;
 
-    int getHits() {return hits;}
+    int getHits() override {return hits;}
 
-    int getMisses() {return misses;}
+    int getMisses() override {return misses;}
 };
