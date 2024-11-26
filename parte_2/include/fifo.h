@@ -38,7 +38,7 @@ void FIFO::push(int valor) {
         this->misses++;
 
         if (this->map.size() < this->tamano) {
-            this->map.put({valor, valor});
+            this->map.put({valor, this->map.size()});
             this->cola.push(valor);
             return;
         }

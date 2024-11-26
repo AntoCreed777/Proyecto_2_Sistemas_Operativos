@@ -19,5 +19,8 @@ int main(){
     std::cout << "Hits: " << lru_time.getHits() << std::endl;
     std::cout << "Misses: " << lru_time.getMisses() << std::endl;
 
+    // Hits: 0
+    // Misses: 10
+
     return 0;
 }

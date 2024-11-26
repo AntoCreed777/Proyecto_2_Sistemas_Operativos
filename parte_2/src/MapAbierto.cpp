@@ -84,3 +84,14 @@ void MapAbierto::_verificar_cantidad_ocupada() {
 int MapAbierto::_hashf1(int k) {
     return k % contenedor_marcos.size();
 }
+
+void MapAbierto::modificar_referenciado(long long key, bool referencia) {
+    int index = _hashf1(key);
+    std::list<Marco>::iterator it = contenedor_marcos[index].begin();
+    for (; it != contenedor_marcos[index].end(); ++it) {
+        if (it->pagina == key) {
+            it->referenciado = referencia;
+            return;
+        }
+    }
+}

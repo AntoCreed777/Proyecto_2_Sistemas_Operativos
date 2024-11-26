@@ -58,6 +58,8 @@ class MapAbierto : public MapADT {
          */
         bool empty() override;
 
+        void modificar_referenciado(long long key, bool referencia);
+
         ~MapAbierto();
     private:
         /**

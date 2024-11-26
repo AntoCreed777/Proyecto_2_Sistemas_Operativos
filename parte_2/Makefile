@@ -30,7 +30,7 @@ $(OBJ_DIR):
 # Regla para ejecutar el programa
 run: $(TARGET)
 	@echo "Ejecutando el programa...\n"
-	@./$(TARGET)
+	@./$(TARGET) -m 3 -a LRU -f referencias.txt
 
 # Regla para debuggear el programa
 debug: $(TARGET)
@@ -38,7 +38,7 @@ debug: $(TARGET)
 
 # Regla para investigar las fugas de memoria
 memoria: $(TARGET)
-	@valgrind --leak-check=full --track-origins=yes ./$(TARGET)
+	@valgrind --leak-check=full --track-origins=yes ./$(TARGET) -m 3 -a LRUR -f referencias.txt
 
 # Regla para limpiar los archivos generados
 clean:
