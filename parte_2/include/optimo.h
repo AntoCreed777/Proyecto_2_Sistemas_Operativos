@@ -68,7 +68,7 @@ void Optimo::push(int valor) {
     auto posicion = this->map.get(valor);
 
 
-    // Si no lo encuentra en el contenedor
+    // Si lo encuentra en el contenedor
     if (posicion.has_value()){
         this->hits++;
 
@@ -83,7 +83,7 @@ void Optimo::push(int valor) {
             int remplazo = paginaRemplazo();
             int eliminar = this->contenedor[remplazo];
 
-            auto resultado = this->map.get(eliminar);
+            auto posicion = this->map.get(eliminar);
             this->map.remove(eliminar);
 
             this->contenedor.erase(this->contenedor.begin() + remplazo); // Elimina el que mas lejos está referenciado
@@ -94,17 +94,4 @@ void Optimo::push(int valor) {
     }
     
     this->indice_lista_referencia++;
-}
-
-
-void Optimo::mostrar_contenedor() {
-    if (this->cantidad_elementos == 0) {
-        return;
-    }
-
-    std::cout << AZUL;
-    for (int i = 0; i < this->cantidad_elementos; i++) {
-        std::cout << this->contenedor[i] << " ";
-    }
-    std::cout << RESET_COLOR << std::endl;
 }

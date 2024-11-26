@@ -5,7 +5,7 @@
 #include "../include/lru.h"
 #include "../include/lru_time.h"
 #include "../include/optimo.h"
-#include "../include/cola.h"
+#include "../include/fifo.h"
 #include "../include/constantes.h"
 
 void manejar_argumentos(int argc, char const *argv[], int &numero_de_marcos, std::vector<int> &referencias, std::string &algoritmo){
@@ -58,36 +58,44 @@ int main(int argc, char const *argv[]) {
     }
 
     if(nombre_algoritmo == "FIFO"){
-        Cola<int> algoritmo(numero_de_marcos);
+        FIFO algoritmo(numero_de_marcos);
 
         for(int valores_referencias : referencias){
             algoritmo.push(valores_referencias);
-            algoritmo.mostrar_contenedor();
         }
+
+        std::cout << AMARILLO "Hits: " RESET_COLOR << algoritmo.getHits() << std::endl;
+        std::cout << AMARILLO "Misses: " RESET_COLOR << algoritmo.getMisses() << std::endl;
     }
     else if(nombre_algoritmo == "LRUR"){                // LRU Reloj Simple  
-        LRU_TIME<int> algoritmo(numero_de_marcos);
+        LRU_TIME algoritmo(numero_de_marcos);
 
         for(int valores_referencias : referencias){
             algoritmo.push(valores_referencias);
-            algoritmo.mostrar_contenedor();
         }
+
+        std::cout << AMARILLO "Hits: " RESET_COLOR << algoritmo.getHits() << std::endl;
+        std::cout << AMARILLO "Misses: " RESET_COLOR << algoritmo.getMisses() << std::endl;
     }   
     else if(nombre_algoritmo == "LRU"){
-        LRU<int> algoritmo(numero_de_marcos);
+        LRU algoritmo(numero_de_marcos);
         
         for(int valores_referencias : referencias){
             algoritmo.push(valores_referencias);
-            algoritmo.mostrar_contenedor();
         }
+
+        std::cout << AMARILLO "Hits: " RESET_COLOR << algoritmo.getHits() << std::endl;
+        std::cout << AMARILLO "Misses: " RESET_COLOR << algoritmo.getMisses() << std::endl;
     }
     else if(nombre_algoritmo == "Optimo"){
-        Optimo<int> algoritmo(numero_de_marcos, referencias);
+        Optimo algoritmo(numero_de_marcos, referencias);
         
         for(int valores_referencias : referencias){
             algoritmo.push(valores_referencias);
-            algoritmo.mostrar_contenedor();
         }
+
+        std::cout << AMARILLO "Hits: " RESET_COLOR << algoritmo.getHits() << std::endl;
+        std::cout << AMARILLO "Misses: " RESET_COLOR << algoritmo.getMisses() << std::endl;
     }
     else {
         std::cerr << ROJO "Algoritmo invalido" << std::endl;
