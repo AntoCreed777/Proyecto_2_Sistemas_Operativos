@@ -59,6 +59,7 @@ void manejar_argumentos(int argc, char const *argv[], int &numero_de_marcos, std
                 mensaje_error_argumentos(argv);
             }
         }
+        else mensaje_error_argumentos(argv);
     }
 }
 
