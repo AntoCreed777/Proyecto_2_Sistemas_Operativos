@@ -1,7 +1,7 @@
 # Proyecto_2_Sistemas_Operativos
 
 <div style="color: red; font-size: 1.5em; font-weight: bold; text-align: center; margin-top: 20px;">
-    ¡ATENCIÓN! Para la correcta compilación de este proyecto se requiere **C++ 17** o una versión más reciente.
+    ¡ATENCIÓN! Para la correcta compilación de este proyecto se requiere C++ 17 o una versión más reciente.
 </div>
 
 En este proyecto se utiliza la biblioteca `std::optional`, lo que significa que **no compilará** en versiones antiguas de C++.
@@ -10,6 +10,7 @@ En este proyecto se utiliza la biblioteca `std::optional`, lo que significa que 
 - [Carlos Tomás Álvarez Norambuena](https://github.com/Karantooo) **(2022433621)**
 - [Antonio Jesús Benavides Puentes](https://github.com/AntoCreed777) **(2023455954)**
 - [Javier Alejandro Campos Contreras](https://github.com/huebitoo) **(2023432857)**
+- [Pablo Esteban Villagran Hermanns](https://github.com/huebitoo) **(2023432857)**
 
 ## Tecnologias utilizadas en el proyecto
 <p align="center">
@@ -27,9 +28,9 @@ En este proyecto se utiliza la biblioteca `std::optional`, lo que significa que 
 ## Instrucciones de compilación
 
 ### Versión de compilador recomendada y sistemas testeados
-El código esta compilado con gcc en linux. Las distribuciones utilizadas en el testeo son Manjaro, Windows subsystem for linux (WSL) y Ubuntu.
+El código esta compilado con g++ en linux. Las distribuciones utilizadas en el testeo son Manjaro, Windows subsystem for linux (WSL) y Ubuntu.
 
-La versión de gcc recomendada para compilar el proyecto es *g++ (GCC) 14.2.1*. RECALCAMOS QUE ES IMPERATIVO EL USO DE C++ 17 EN ADELANTE. 
+La versión de g++ recomendada para compilar el proyecto es **g++ (GCC) 14.2.1** . RECALCAMOS QUE ES IMPERATIVO EL USO DE **C++ 17** EN ADELANTE.
 ### Comandos para ejecutar el código 
 El repositorio esta compuesto de 2 partes que están aisladas entre sí. Cada parte esta en su propia carpeta que estan diferenciada por  ```parte_1``` y ```parte_2```.
 
@@ -47,16 +48,16 @@ Luego de compilar, ejecuta el ejecutable ``main.out`` utilizando las FLAGS corre
 
 ### Ejemplos:
 
-- **Parte_1:** Si desea que se generen ``2 productores``, ``5 consumidores``, con un tamaño de cola inicial de `0` y un tiempo de espera máximo de los consumidores de `1 segundo`, el comando sería:
+- **Parte_1:** Si desea que se generen ``2 productores``, ``5 consumidores``, con un ```tamaño de cola inicial de 0``` y un tiempo de espera máximo de los consumidores de `1 segundo`, el comando sería:
 
   ```bash
   ./main.out -p 2 -c 5 -s 0 -t 1
   ```
 
-  - Parte_2: ***EXPLICACION***
+  - Parte_2: Si desea que se hayan ``3 marcos de pagina``, con el algoritmo ```FIFO``` y usando el archivo ```referencias.txt```, el comando sería:
   
   ```bash
-  ./main.out
+  ./main.out -m 3 -a FIFO -f referencias.txt
   ```
 
 
