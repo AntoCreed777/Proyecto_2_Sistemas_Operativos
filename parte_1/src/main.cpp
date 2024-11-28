@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <iostream>
 #include <thread>
 #include <cctype>
@@ -69,6 +70,11 @@ void cargar_argumentos(int argc, char const *argv[], int &cantidad_productores, 
 
             if (es_numero(argv[i + 1])) {
                 tamano_inicial_cola = std::stoi(argv[i + 1]);
+                if (tamano_inicial_cola == 0){
+                    std::cerr << ROJO << "Error: El argumento para -s debe ser un número diferente de 0" << RESET_COLOR << std::endl;
+                    mensaje_error_argumentos(argv);
+
+                }
             }
             else {
                 std::cerr << ROJO << "Error: El argumento para -s debe ser un número positivo." << RESET_COLOR << std::endl;

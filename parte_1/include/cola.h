@@ -37,7 +37,7 @@ public:
 
     void mostrar_contenedor(){
         if (this->size() == 0) {
-            std::cout << std::endl;
+            std::cout << AMARILLO << "No hay elementos" << RESET_COLOR << std::endl;
             return;
         }
         
